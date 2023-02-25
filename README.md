@@ -1,1 +1,1 @@
-# instagram-scheduler
+# Social Media Scheduler
