@@ -1,6 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+# Blueprints
+from .views.routes import api
+from .views.instagram import instagram_api
+
 def create_app(config_overrides=None):
     
     app = Flask(__name__)
@@ -11,7 +15,6 @@ def create_app(config_overrides=None):
     
     # Load the models
     from app.models import db
-    from app.models.todo import Todo
     db.init_app(app)
 
     # Create the database tables
@@ -19,7 +22,9 @@ def create_app(config_overrides=None):
         db.create_all()
         db.session.commit()
         
-    # Register the blueprints
-    from .views.routes import api
+    # Routes related to core functionality
+    api.register_blueprint(instagram_api)
     app.register_blueprint(api)
+
+    # Routes related to instagram parsing
     return app
